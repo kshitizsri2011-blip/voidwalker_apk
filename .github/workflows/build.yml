@@ -2,18 +2,20 @@ name: Build Android APK
 on: [push, workflow_dispatch]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+      - name: Install Buildozer dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+          pip3 install --upgrade buildozer cython pillow
       - name: Convert ICO to PNG
         run: |
-          pip install pillow
           python3 -c "from PIL import Image; Image.open('voidwalker_icon.ico').save('voidwalker_icon.png')"
       - name: Build APK with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
-        with:
-          command: buildozer android debug
-          buildozer_version: master
+        run: |
+          yes | buildozer -v android debug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
