@@ -10,3 +10,7 @@ orientation = landscape
 fullscreen = 1
 android.permissions = VIBRATE
 icon.filename = %(source.dir)s/voidwalker_icon.png
+android.api = 33
+android.minapi = 21
+android.ndk = 25b
+android.accept_sdk_license = True
