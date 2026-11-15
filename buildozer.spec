@@ -1,0 +1,12 @@
+[app]
+title = Voidwalker
+package.name = voidwalker
+package.domain = org.ks5g1
+source.dir = .
+source.include_exts = py,png,jpg,ico
+version = 1.0
+requirements = python3,pygame,numpy
+orientation = landscape
+fullscreen = 1
+android.permissions = VIBRATE
+icon.filename = %(source.dir)s/voidwalker_icon.png
