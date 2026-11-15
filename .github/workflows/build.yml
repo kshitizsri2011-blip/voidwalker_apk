@@ -1,11 +1,21 @@
-[app]
-title = Voidwalker
-package.name = voidwalker
-package.domain = org.ks5g1
-source.dir = .
-source.include_exts = py,png,jpg,ico
-version = 1.0
-requirements = python3,pygame,numpy
-orientation = landscape
-fullscreen = 1
-android.permissions = VIBRATE
+name: Build Android APK
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Convert ICO to PNG
+        run: |
+          pip install pillow
+          python3 -c "from PIL import Image; Image.open('voidwalker_icon.ico').save('voidwalker_icon.png')"
+      - name: Build APK with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        with:
+          command: buildozer android debug
+          buildozer_version: master
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: voidwalker-apk
+          path: bin/*.apk
